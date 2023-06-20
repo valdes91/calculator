@@ -5,12 +5,13 @@
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
-	border: 1px black solid;
+	/* border: 1px black solid; */
+	overflow: visible;
 }
 
 html,
 body {
-	height: 100%;
+	height: auto;
 	min-height: 100vh;
 	text-align: center;
 	width: 100%;
@@ -26,7 +27,9 @@ body {
 	flex-direction: column;
 }
 
-body > * {
+body > *,
+.calculator > *,
+.buttons > * {
 	width: 100%;
 }
 
@@ -35,11 +38,61 @@ body > * {
 	padding-bottom: 5rem;
 }
 
+.py-2 {
+	padding-left: 3rem;
+	padding-bottom: 3rem;
+}
+
 main {
 	flex: 1;
 }
 
 .calculator {
 	max-width: 450px;
+	min-width: 300px;
 	width: 25%;
+	height: 75%;
+	min-height: 500px;
+}
+
+.calculator,
+.display {
+	border: 1px solid black;
+}
+
+.row {
+	flex: 1;
+}
+
+.display {
+	flex: 1.5;
+}
+
+.row {
+	justify-content: space-evenly;
+}
+
+.buttons {
+	flex: 2;
+}
+
+.button {
+	padding: 1rem 1.5rem;
+}
+
+.display {
+	position: relative;
+}
+
+.display span {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding-right: 0.25rem;
+	padding-bottom: 0.25rem;
+}
+
+.clear,
+.delete {
+	padding: 1rem 1.5rem;
 }
