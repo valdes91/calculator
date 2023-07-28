@@ -33,6 +33,45 @@ function operate(num1, num2, operator) {
 	return answer;
 }
 
-const firstNumber = document.querySelector('.first-number');
-const secondNumber = document.querySelector('.second-number');
-const operator = document.querySelector('.operator');
+function processClick(e) {
+	console.log('clicked!');
+	console.log(e.target);
+}
+
+function appendNumber(e) {
+	const newNumber = e.target.textContent;
+	console.log('number button was clicked');
+	if (operatorSet) {
+		secondNumber += newNumber;
+	} else {
+		firstNumber += newNumber;
+	}
+	updateDisplay();
+}
+
+function updateDisplay() {
+	if (operatorSet) {
+		bottomDisplay.textContent = secondNumber;
+	} else {
+		bottomDisplay.textContent = firstNumber;
+	}
+}
+
+const topDisplay = document.querySelector('.top');
+const bottomDisplay = document.querySelector('.bottom');
+const operatorText = document.querySelector('.operator');
+let firstNumber = '';
+let secondNumber = '';
+let selectedOperator = '';
+let operatorSet = false;
+
+const numberBtns = document.querySelectorAll('.num');
+const operatorBtns = document.querySelectorAll('.op');
+const clearBtn = document.querySelector('.clear');
+const deleteBtn = document.querySelector('.delete');
+const decimalBtn = document.querySelector('decimal');
+const equalsBtn = document.querySelector('.done');
+
+numberBtns.forEach((btn) => {
+	btn.addEventListener('click', appendNumber);
+});
