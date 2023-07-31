@@ -33,11 +33,6 @@ function operate(num1, num2, operator) {
 	return answer;
 }
 
-function processClick(e) {
-	console.log('clicked!');
-	console.log(e.target);
-}
-
 function appendNumber(e) {
 	const newNumber = e.target.textContent;
 	console.log('number button was clicked');
@@ -57,12 +52,20 @@ function updateDisplay() {
 	}
 }
 
+function clearAll() {
+	operatorSet = false;
+	selectedOperator = '';
+	bottomDisplay.textContent = '0';
+	firstNumber = bottomDisplay.textContent;
+	secondNumber = '';
+	topDisplay.innerHTML = '<br />';
+}
+
 const topDisplay = document.querySelector('.top');
 const bottomDisplay = document.querySelector('.bottom');
-const operatorText = document.querySelector('.operator');
-let firstNumber = '';
-let secondNumber = '';
-let selectedOperator = '';
+let firstNumber = bottomDisplay.textContent;
+let secondNumber;
+let selectedOperator;
 let operatorSet = false;
 
 const numberBtns = document.querySelectorAll('.num');
@@ -75,3 +78,5 @@ const equalsBtn = document.querySelector('.done');
 numberBtns.forEach((btn) => {
 	btn.addEventListener('click', appendNumber);
 });
+
+clearBtn.addEventListener('click', clearAll);
