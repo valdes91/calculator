@@ -61,11 +61,23 @@ function clearAll() {
 	topDisplay.innerHTML = '<br />';
 }
 
+function deleteLastDigit() {
+	if (bottomDisplay.textContent.length === 0) return;
+
+	let newNum = bottomDisplay.textContent.slice(0, -1);
+	bottomDisplay.textContent = newNum;
+	if (operatorSet) {
+		secondNumber = newNum;
+	} else {
+		firstNumber = newNum;
+	}
+}
+
 const topDisplay = document.querySelector('.top');
 const bottomDisplay = document.querySelector('.bottom');
 let firstNumber = bottomDisplay.textContent;
-let secondNumber;
-let selectedOperator;
+let secondNumber = '';
+let selectedOperator = '';
 let operatorSet = false;
 
 const numberBtns = document.querySelectorAll('.num');
@@ -80,3 +92,4 @@ numberBtns.forEach((btn) => {
 });
 
 clearBtn.addEventListener('click', clearAll);
+deleteBtn.addEventListener('click', deleteLastDigit);
