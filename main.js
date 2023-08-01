@@ -35,13 +35,29 @@ function operate(num1, num2, operator) {
 
 function appendNumber(e) {
 	const newNumber = e.target.textContent;
-	console.log('number button was clicked');
-	if (operatorSet) {
-		secondNumber += newNumber;
-	} else {
-		firstNumber += newNumber;
+	const shouldAddNumber = checkZero(newNumber);
+
+	if (shouldAddNumber) {
+		if (operatorSet) {
+			secondNumber += newNumber;
+		} else {
+			firstNumber += newNumber;
+		}
+		updateDisplay();
 	}
-	updateDisplay();
+}
+
+function checkZero(newNumber) {
+	if (bottomDisplay.textContent === '0' && newNumber === '0') return false;
+	if (bottomDisplay.textContent === '0') {
+		bottomDisplay.textContent = '';
+		if (operatorSet) {
+			secondNumber = '';
+		} else {
+			firstNumber = '';
+		}
+	}
+	return true;
 }
 
 function updateDisplay() {
@@ -79,12 +95,13 @@ let firstNumber = bottomDisplay.textContent;
 let secondNumber = '';
 let selectedOperator = '';
 let operatorSet = false;
+let decimalSet = false;
 
 const numberBtns = document.querySelectorAll('.num');
 const operatorBtns = document.querySelectorAll('.op');
 const clearBtn = document.querySelector('.clear');
 const deleteBtn = document.querySelector('.delete');
-const decimalBtn = document.querySelector('decimal');
+const decimalBtn = document.querySelector('.decimal');
 const equalsBtn = document.querySelector('.done');
 
 numberBtns.forEach((btn) => {
@@ -93,3 +110,4 @@ numberBtns.forEach((btn) => {
 
 clearBtn.addEventListener('click', clearAll);
 deleteBtn.addEventListener('click', deleteLastDigit);
+decimalBtn.addEventListener('click', processDecimal);
