@@ -76,6 +76,10 @@ function clearAll() {
 
 function deleteLastDigit() {
 	if (bottomDisplay.textContent.length === 0) return;
+	if (bottomDisplay.textContent.length === 1) {
+		clearAll();
+		return;
+	}
 
 	let newNum = bottomDisplay.textContent.slice(0, -1);
 	let deletedValue = bottomDisplay.textContent.slice(-1);
