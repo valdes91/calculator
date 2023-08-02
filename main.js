@@ -38,11 +38,7 @@ function appendNumber(e) {
 	const shouldAddNumber = checkZero(newNumber);
 
 	if (shouldAddNumber) {
-		if (operatorSet) {
-			secondNumber += newNumber;
-		} else {
-			firstNumber += newNumber;
-		}
+		appendValue(newNumber);
 		updateDisplay();
 	}
 }
@@ -96,13 +92,17 @@ function processDecimal(e) {
 	if (decimalSet) return;
 
 	const decimalPoint = e.target.textContent;
-	if (operatorSet) {
-		secondNumber += decimalPoint;
-	} else {
-		firstNumber += decimalPoint;
-	}
-	decimalSet = true;
+	appendValue(decimalPoint);
 	updateDisplay();
+	decimalSet = true;
+}
+
+function appendValue(value) {
+	if (operatorSet) {
+		secondNumber += value;
+	} else {
+		firstNumber += value;
+	}
 }
 
 const topDisplay = document.querySelector('.top');
