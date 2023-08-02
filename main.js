@@ -70,6 +70,7 @@ function updateDisplay() {
 
 function clearAll() {
 	operatorSet = false;
+	decimalSet = false;
 	selectedOperator = '';
 	bottomDisplay.textContent = '0';
 	firstNumber = bottomDisplay.textContent;
@@ -81,12 +82,27 @@ function deleteLastDigit() {
 	if (bottomDisplay.textContent.length === 0) return;
 
 	let newNum = bottomDisplay.textContent.slice(0, -1);
+	let deletedValue = bottomDisplay.textContent.slice(-1);
+	if (deletedValue === '.') decimalSet = false;
 	bottomDisplay.textContent = newNum;
 	if (operatorSet) {
 		secondNumber = newNum;
 	} else {
 		firstNumber = newNum;
 	}
+}
+
+function processDecimal(e) {
+	if (decimalSet) return;
+
+	const decimalPoint = e.target.textContent;
+	if (operatorSet) {
+		secondNumber += decimalPoint;
+	} else {
+		firstNumber += decimalPoint;
+	}
+	decimalSet = true;
+	updateDisplay();
 }
 
 const topDisplay = document.querySelector('.top');
