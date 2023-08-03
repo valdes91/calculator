@@ -66,6 +66,8 @@ function updateDisplay() {
 	}
 }
 
+function reset() {}
+
 function clearAll() {
 	operatorSet = false;
 	decimalSet = false;
@@ -103,14 +105,14 @@ function processDecimal(e) {
 
 function appendValue(value) {
 	if (operatorSet) {
-		secondNumber += value;
+		secondNumber = (secondNumber || '') + value;
 	} else {
-		firstNumber += value;
+		firstNumber = (firstNumber || '') + value;
 	}
 }
 
 function shouldOperate() {
-	return firstNumber.length >= 1 && secondNumber.length >= 1 && operatorSet;
+	return firstNumber !== null && secondNumber !== null && operatorSet;
 }
 
 function assignOperator(e) {
@@ -125,7 +127,7 @@ function assignOperator(e) {
 		decimalSet = false;
 	}
 	selectedOperator = e.target.textContent;
-	topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber}`;
+	topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber || ''}`;
 	console.log(`the operator that was selected is: ${selectedOperator}`);
 }
 
@@ -134,7 +136,7 @@ function endCalculation() {
 		const answer = operate();
 		topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber} =`;
 		firstNumber = answer;
-		secondNumber = '';
+		secondNumber = null;
 		operatorSet = false;
 		updateDisplay();
 	}
@@ -143,8 +145,8 @@ function endCalculation() {
 const topDisplay = document.querySelector('.top');
 const bottomDisplay = document.querySelector('.bottom');
 let firstNumber = bottomDisplay.textContent;
-let secondNumber = '';
-let selectedOperator = '';
+let secondNumber = null;
+let selectedOperator = null;
 let operatorSet = false;
 let decimalSet = false;
 
