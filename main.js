@@ -14,16 +14,18 @@ function divide(num1, num2) {
 	return num1 / num2;
 }
 
-function operate(num1, num2, operator) {
+function operate() {
+	const num1 = Number(firstNumber);
+	const num2 = Number(secondNumber);
 	let answer;
-	switch (operator) {
+	switch (selectedOperator) {
 		case '+':
 			answer = add(num1, num2);
 			break;
 		case '-':
 			answer = subtract(num1, num2);
 			break;
-		case '*':
+		case 'X':
 			answer = multiply(num1, num2);
 			break;
 		case '/':
@@ -75,12 +77,10 @@ function clearAll() {
 }
 
 function deleteLastDigit() {
-	if (bottomDisplay.textContent.length === 0) return;
-	if (bottomDisplay.textContent.length === 1) {
-		clearAll();
+	if (bottomDisplay.textContent.length <= 1) {
+		bottomDisplay.textContent = '0';
 		return;
 	}
-
 	let newNum = bottomDisplay.textContent.slice(0, -1);
 	let deletedValue = bottomDisplay.textContent.slice(-1);
 	if (deletedValue === '.') decimalSet = false;
@@ -109,6 +109,37 @@ function appendValue(value) {
 	}
 }
 
+function shouldOperate() {
+	return firstNumber.length >= 1 && secondNumber.length >= 1 && operatorSet;
+}
+
+function assignOperator(e) {
+	operatorSet = true;
+	//check if its an ongoing calculation or if this is the first operation the user has selected
+	if (shouldOperate()) {
+		console.log('an operation should be performed because both numbers are set');
+		const answer = operate();
+		console.log(`${firstNumber} ${selectedOperator} ${secondNumber} = ${answer}`);
+	} else {
+		console.log('no calculation possible!');
+		decimalSet = false;
+	}
+	selectedOperator = e.target.textContent;
+	topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber}`;
+	console.log(`the operator that was selected is: ${selectedOperator}`);
+}
+
+function endCalculation() {
+	if (shouldOperate()) {
+		const answer = operate();
+		topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber} =`;
+		firstNumber = answer;
+		secondNumber = '';
+		operatorSet = false;
+		updateDisplay();
+	}
+}
+
 const topDisplay = document.querySelector('.top');
 const bottomDisplay = document.querySelector('.bottom');
 let firstNumber = bottomDisplay.textContent;
@@ -128,6 +159,11 @@ numberBtns.forEach((btn) => {
 	btn.addEventListener('click', appendNumber);
 });
 
+operatorBtns.forEach((btn) => {
+	btn.addEventListener('click', assignOperator);
+});
+
 clearBtn.addEventListener('click', clearAll);
 deleteBtn.addEventListener('click', deleteLastDigit);
 decimalBtn.addEventListener('click', processDecimal);
+equalsBtn.addEventListener('click', endCalculation);
