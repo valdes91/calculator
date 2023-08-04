@@ -78,20 +78,26 @@ function clearAll() {
 	topDisplay.innerHTML = '<br />';
 }
 
-function deleteLastDigit() {
-	if (bottomDisplay.textContent.length <= 1) {
-		bottomDisplay.textContent = '0';
-		return;
-	}
-	let newNum = bottomDisplay.textContent.slice(0, -1);
-	let deletedValue = bottomDisplay.textContent.slice(-1);
-	if (deletedValue === '.') decimalSet = false;
-	bottomDisplay.textContent = newNum;
+function setNumber(newNum) {
 	if (operatorSet) {
 		secondNumber = newNum;
 	} else {
 		firstNumber = newNum;
 	}
+}
+
+function deleteLastDigit() {
+	let newNum;
+	if (bottomDisplay.textContent.length <= 1) {
+		newNum = '0';
+		setNumber(newNum);
+	} else {
+		newNum = bottomDisplay.textContent.slice(0, -1);
+		let deletedValue = bottomDisplay.textContent.slice(-1);
+		if (deletedValue === '.') decimalSet = false;
+		setNumber(newNum);
+	}
+	updateDisplay();
 }
 
 function processDecimal(e) {
@@ -119,16 +125,12 @@ function assignOperator(e) {
 	operatorSet = true;
 	//check if its an ongoing calculation or if this is the first operation the user has selected
 	if (shouldOperate()) {
-		console.log('an operation should be performed because both numbers are set');
 		const answer = operate();
-		console.log(`${firstNumber} ${selectedOperator} ${secondNumber} = ${answer}`);
 	} else {
-		console.log('no calculation possible!');
 		decimalSet = false;
 	}
 	selectedOperator = e.target.textContent;
 	topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber || ''}`;
-	console.log(`the operator that was selected is: ${selectedOperator}`);
 }
 
 function endCalculation() {
