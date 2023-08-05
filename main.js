@@ -40,6 +40,10 @@ function appendNumber(e) {
 	const shouldAddNumber = checkZero(newNumber);
 
 	if (shouldAddNumber) {
+		if (resetOnNextNumberPress) {
+			setNumber(null);
+			resetOnNextNumberPress = false;
+		}
 		appendValue(newNumber);
 		updateDisplay();
 	}
@@ -74,7 +78,7 @@ function clearAll() {
 	selectedOperator = '';
 	bottomDisplay.textContent = '0';
 	firstNumber = bottomDisplay.textContent;
-	secondNumber = '';
+	secondNumber = null;
 	topDisplay.innerHTML = '<br />';
 }
 
@@ -125,7 +129,8 @@ function assignOperator(e) {
 	operatorSet = true;
 	//check if its an ongoing calculation or if this is the first operation the user has selected
 	if (shouldOperate()) {
-		const answer = operate();
+		console.log('looks like we should operate first');
+		// endCalculation();
 	} else {
 		decimalSet = false;
 	}
@@ -134,6 +139,7 @@ function assignOperator(e) {
 }
 
 function endCalculation() {
+	// the first number doesnt reset after pressing a number after doing a calculation. maybe have a control variable to signal that the next digit entered should replace the answer as the first number?
 	if (shouldOperate()) {
 		const answer = operate();
 		topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber} =`;
@@ -141,6 +147,7 @@ function endCalculation() {
 		secondNumber = null;
 		operatorSet = false;
 		updateDisplay();
+		resetOnNextNumberPress = true;
 	}
 }
 
@@ -151,6 +158,7 @@ let secondNumber = null;
 let selectedOperator = null;
 let operatorSet = false;
 let decimalSet = false;
+let resetOnNextNumberPress = false;
 
 const numberBtns = document.querySelectorAll('.num');
 const operatorBtns = document.querySelectorAll('.op');
