@@ -127,10 +127,9 @@ function shouldOperate() {
 
 function assignOperator(e) {
 	operatorSet = true;
-	//check if its an ongoing calculation or if this is the first operation the user has selected
 	if (shouldOperate()) {
-		console.log('looks like we should operate first');
-		// endCalculation();
+		endCalculation();
+		operatorSet = true;
 	} else {
 		decimalSet = false;
 	}
@@ -139,7 +138,6 @@ function assignOperator(e) {
 }
 
 function endCalculation() {
-	// the first number doesnt reset after pressing a number after doing a calculation. maybe have a control variable to signal that the next digit entered should replace the answer as the first number?
 	if (shouldOperate()) {
 		const answer = operate();
 		topDisplay.textContent = `${firstNumber} ${selectedOperator} ${secondNumber} =`;
